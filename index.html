@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regalo Veronica</title>
+  <style>
+    /* Stile generale */
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Navbar animata */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 105, 135, 0.8);
+      color: #fff;
+      font-size: 1.5rem;
+      text-align: center;
+      padding: 10px 0;
+      z-index: 1000;
+      animation: fade-in 2s ease-in-out;
+    }
+
+    .navbar span {
+      display: inline-block;
+      animation: bounce 1.5s infinite alternate ease-in-out;
+    }
+
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounce {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-10px);
+      }
+    }
+
+    /* Contenitore principale */
+    .container {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      margin-top: 100px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      animation: pop-in 1s ease-in-out;
+    }
+
+    .progress-container {
+      margin: 20px auto;
+      width: 80%;
+      background: #fff;
+      border-radius: 50px;
+      overflow: hidden;
+      height: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #ff6a95, #ffcc00);
+      width: 0;
+      transition: width 0.5s ease;
+    }
+
+    #time-left {
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
+
+    @keyframes pop-in {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Stile responsivo */
+    @media screen and (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .navbar {
+        font-size: 1.2rem;
+      }
+
+      .container {
+        width: 90%;
+      }
+
+      #time-left {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar animata -->
+  <div class="navbar">
+    <span>💝 Ti amo 💝</span>
+  </div>
+
+  <!-- Contenitore principale -->
+  <div class="container">
+    <h1>🎁 Regalo Veronica 🎁</h1>
+    <p>La sorpresa si rivela il 24/12/2024!</p>
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <p id="time-left"></p>
+  </div>
+
+  <script>
+    // Data di inizio e fine
+    const startDate = new Date('2024-01-01T00:00:00');
+    const targetDate = new Date('2024-12-24T00:00:00');
+    const progressBar = document.getElementById('progress-bar');
+    const timeLeftDisplay = document.getElementById('time-left');
+
+    // Funzione per aggiornare la barra di avanzamento
+    function updateProgressBar() {
+      const now = new Date();
+
+      // Calcola il periodo totale e il tempo trascorso
+      const totalTime = targetDate - startDate; // Periodo totale (24/12/2024 - 01/01/2024)
+      const elapsed = now - startDate; // Tempo trascorso dal 01/01/2024
+
+      // Calcola la percentuale completata
+      const percentage = Math.min((elapsed / totalTime) * 100, 100);
+      progressBar.style.width = `${percentage}%`;
+
+      // Aggiorna il countdown
+      if (now < startDate) {
+        timeLeftDisplay.textContent = `Il conto alla rovescia inizia il 01/01/2024!`;
+      } else if (now > targetDate) {
+        timeLeftDisplay.textContent = `OGGI É IL GRANDE GIORNO 🎁🎉`;
+      } else {
+        const timeRemaining = targetDate - now;
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        timeLeftDisplay.textContent = `Mancano ${days} giorni, ${hours} ore, ${minutes} minuti e ${seconds} secondi!`;
+      }
+    }
+
+    // Aggiorna ogni secondo
+    setInterval(updateProgressBar, 1000);
+    updateProgressBar();
+  </script>
+</body>
+</html>
