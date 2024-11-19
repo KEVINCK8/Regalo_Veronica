@@ -96,6 +96,51 @@
       margin-top: 10px;
     }
 
+    /* Sezione "Mi ami?" */
+    .love-question {
+      margin-top: 20px;
+    }
+
+    .love-question button {
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .yes-button {
+      background-color: #ff6a95;
+      color: #fff;
+    }
+
+    .no-button {
+      background-color: #555;
+      color: #fff;
+    }
+
+    /* Cuori */
+    .heart {
+      position: absolute;
+      font-size: 2rem;
+      animation: fall 3s linear infinite;
+      color: #ff6a95;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% {
+        opacity: 1;
+        transform: translateY(-100px) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
     @keyframes pop-in {
       0% {
         transform: scale(0.8);
@@ -130,7 +175,7 @@
 <body>
   <!-- Navbar animata -->
   <div class="navbar">
-    <span>💝 Ti amo 💝</span>
+    <span>Ti amo ❤️</span>
   </div>
 
   <!-- Contenitore principale -->
@@ -141,6 +186,13 @@
       <div class="progress-bar" id="progress-bar"></div>
     </div>
     <p id="time-left"></p>
+
+    <!-- Domanda "Mi ami?" -->
+    <div class="love-question">
+      <p>Mi ami?</p>
+      <button class="yes-button" onclick="loveResponse('yes')">Sì</button>
+      <button class="no-button" id="no-button" onclick="loveResponse('no')">No</button>
+    </div>
   </div>
 
   <script>
@@ -166,7 +218,7 @@
       if (now < startDate) {
         timeLeftDisplay.textContent = `Il conto alla rovescia inizia il 01/01/2024!`;
       } else if (now > targetDate) {
-        timeLeftDisplay.textContent = `OGGI É IL GRANDE GIORNO 🎁🎉`;
+        timeLeftDisplay.textContent = `La sorpresa è stata svelata! 🎉`;
       } else {
         const timeRemaining = targetDate - now;
         const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
@@ -181,6 +233,35 @@
     // Aggiorna ogni secondo
     setInterval(updateProgressBar, 1000);
     updateProgressBar();
+
+    // Funzione per la risposta alla domanda "Mi ami?"
+    function loveResponse(answer) {
+      const noButton = document.getElementById('no-button');
+
+      if (answer === 'no') {
+        // Sposta il bottone "No" in una posizione casuale
+        const x = Math.random() * 80;
+        const y = Math.random() * 300;
+        noButton.style.position = 'absolute';
+        noButton.style.left = `${x}%`;
+        noButton.style.top = `${y}px`;
+      } else if (answer === 'yes') {
+        // Mostra una pioggia di cuori
+        for (let i = 0; i < 50; i++) {
+          const heart = document.createElement('div');
+          heart.className = 'heart';
+          heart.textContent = '💝';
+          heart.style.left = `${Math.random() * 100}vw`;
+          heart.style.animationDelay = `${Math.random() * 2}s`;
+          document.body.appendChild(heart);
+
+          // Rimuovi il cuore dopo l'animazione
+          setTimeout(() => {
+            heart.remove();
+          }, 3000);
+        }
+      }
+    }
   </script>
 </body>
 </html>
